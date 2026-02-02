@@ -5,86 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulse Status Guide</title>
     <style>
-        :root {
-            /* Dark Theme Colors based on your screenshot */
-            --bg-color: #000000; 
-            --card-bg: #111827; /* Dark Navy/Gray */
-            --text-main: #ffffff;
-            --text-sub: #9ca3af;
-            --border-color: #374151;
-            
-            /* Status Colors (Adjusted for Dark Mode) */
-            --red-bg: #450a0a;
-            --red-text: #fca5a5;
-            --orange-bg: #431407;
-            --orange-text: #fdba74;
-            --green-bg: #052e16;
-            --green-text: #86efac;
-            --gray-bg: #374151;
-            --gray-text: #d1d5db;
+        /* RESET & BASIC SETUP */
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Matches the dark background of your dashboard */
+            background-color: #000000; 
+            color: #e2e8f0;
+            /* This kills the scrollbar */
+            overflow: hidden; 
         }
 
+        /* THE CONTAINER */
         .container {
-            background-color: var(--card-bg);
+            /* Aligns content to top-left */
+            display: inline-block;
+            padding: 10px;
             width: 100%;
-            max-width: 1000px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            max-width: 800px;
         }
 
+        /* THE CARD DESIGN */
+        .card {
+            background-color: #0f172a; /* Dark Slate Blue */
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* HEADER */
         .header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--card-bg);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
         }
-
-        .header h1 {
-            margin: 0;
-            font-size: 20px;
-            color: var(--text-main);
-            font-weight: 600;
+        .header h2 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #f8fafc;
         }
-
         .header p {
-            margin: 6px 0 0;
-            color: var(--text-sub);
-            font-size: 13px;
+            margin: 0;
+            font-size: 12px;
+            color: #94a3b8;
         }
 
+        /* TABLE STYLES */
         table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
+            font-size: 12px;
         }
 
         th {
-            background-color: #1f2937;
-            color: var(--text-sub);
+            text-align: left;
+            padding: 10px;
+            color: #94a3b8;
             font-weight: 600;
-            font-size: 11px;
             text-transform: uppercase;
+            font-size: 10px;
             letter-spacing: 0.05em;
-            padding: 12px 24px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #334155;
         }
 
         td {
-            padding: 14px 24px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-size: 13px;
+            padding: 12px 10px;
+            border-bottom: 1px solid #1e293b;
             vertical-align: middle;
         }
 
@@ -92,132 +84,117 @@
             border-bottom: none;
         }
 
-        /* Status Badges */
+        /* BADGE STYLES (The Pills) */
         .badge {
-            display: inline-flex;
-            align-items: center;
+            display: inline-block;
             padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 12px;
-            border: 1px solid transparent;
-        }
-
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .status-red { background-color: var(--red-bg); color: var(--red-text); border-color: #7f1d1d; }
-        .status-red .badge-dot { background-color: var(--red-text); }
-
-        .status-orange { background-color: var(--orange-bg); color: var(--orange-text); border-color: #7c2d12; }
-        .status-orange .badge-dot { background-color: var(--orange-text); }
-
-        .status-green { background-color: var(--green-bg); color: var(--green-text); border-color: #14532d; }
-        .status-green .badge-dot { background-color: var(--green-text); }
-
-        .status-gray { background-color: var(--gray-bg); color: var(--gray-text); border-color: #4b5563; }
-        .status-gray .badge-dot { background-color: var(--gray-text); }
-
-        .logic-text {
-            font-family: "Menlo", "Monaco", "Courier New", monospace;
+            border-radius: 9999px;
+            font-weight: 600;
             font-size: 11px;
-            background-color: #000;
-            padding: 3px 6px;
-            border-radius: 4px;
-            color: #d1d5db;
-            border: 1px solid #374151;
+            min-width: 90px;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        .action-text {
-            font-weight: 400;
-            color: #e5e7eb;
+        /* COLORS FOR BADGES */
+        .bg-gray { background-color: #334155; color: #f1f5f9; border: 1px solid #475569; }
+        .bg-red { background-color: #7f1d1d; color: #fecaca; border: 1px solid #991b1b; }
+        .bg-orange { background-color: #7c2d12; color: #fed7aa; border: 1px solid #9a3412; }
+        .bg-amber { background-color: #78350f; color: #fde68a; border: 1px solid #92400e; }
+        .bg-yellow { background-color: #713f12; color: #fef08a; border: 1px solid #854d0e; }
+        .bg-green { background-color: #14532d; color: #bbf7d0; border: 1px solid #166534; }
+        .bg-emerald { background-color: #064e3b; color: #a7f3d0; border: 1px solid #065f46; }
+        .bg-blue { background-color: #1e3a8a; color: #bfdbfe; border: 1px solid #1e40af; }
+
+        /* CODE SNIPPET STYLE */
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #000000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            font-size: 11px;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header">
-            <h1>Pulse Status Guide</h1>
-            <p>Priority flows top to bottom. Product takes the status of the first condition met.</p>
+        <div class="card">
+            <div class="header">
+                <h2>Pulse Status Guide</h2>
+                <p>Priority flows top to bottom. Product takes the status of the first condition met.</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20%">Status</th>
+                        <th width="25%">Meaning</th>
+                        <th width="25%">Logic Threshold</th>
+                        <th width="30%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge bg-gray">● Inactive</span></td>
+                        <td>No Stock / Offline</td>
+                        <td><code>Stock = 0</code></td>
+                        <td>Archive or check feed</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-red">● Quality Alert</span></td>
+                        <td>High Return Rate</td>
+                        <td><code>Returns > 5%</code></td>
+                        <td>Check quality & sizing</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-red">● Margin Bleed</span></td>
+                        <td>Heavy Discounting</td>
+                        <td><code>Price < 35% of Orig</code></td>
+                        <td>Reduce discount depth</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-orange">● Broken Sizes</span></td>
+                        <td>Size Fragmentation</td>
+                        <td><code>Avail < 50%</code></td>
+                        <td>Restock missing sizes</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-amber">● Restock ASAP</span></td>
+                        <td>Running Out</td>
+                        <td><code>Supply < 4 Weeks</code></td>
+                        <td>Reorder immediately</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-yellow">● Low Conversion</span></td>
+                        <td>High Views, No Sales</td>
+                        <td><code>View > 1k & ATC < 1%</code></td>
+                        <td>Review price & image</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-blue">● Overstock</span></td>
+                        <td>Moving Slowly</td>
+                        <td><code>Supply > 20 Weeks</code></td>
+                        <td>Run promo to clear</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-emerald">● Hidden Gem</span></td>
+                        <td>High Potential</td>
+                        <td><code>View < 200 & ATC > 4%</code></td>
+                        <td>Increase marketing</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-green">● Healthy</span></td>
+                        <td>Performing Well</td>
+                        <td><code>No issues found</code></td>
+                        <td>Maintain strategy</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 20%">Status</th>
-                    <th style="width: 25%">Meaning</th>
-                    <th style="width: 25%">Logic Threshold</th>
-                    <th style="width: 30%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Inactive -->
-                <tr>
-                    <td><span class="badge status-gray"><span class="badge-dot"></span>Inactive</span></td>
-                    <td>No Stock / Offline</td>
-                    <td><span class="logic-text">Stock = 0</span></td>
-                    <td class="action-text">Archive or check feed</td>
-                </tr>
-
-                <!-- Critical (Red) -->
-                <tr>
-                    <td><span class="badge status-red"><span class="badge-dot"></span>Quality Alert</span></td>
-                    <td>High Return Rate</td>
-                    <td><span class="logic-text">Returns > 5%</span></td>
-                    <td class="action-text">Check quality & sizing</td>
-                </tr>
-                <tr>
-                    <td><span class="badge status-red"><span class="badge-dot"></span>Margin Bleed</span></td>
-                    <td>Heavy Discounting</td>
-                    <td><span class="logic-text">Price < 35% of Orig</span></td>
-                    <td class="action-text">Reduce discount depth</td>
-                </tr>
-                <tr>
-                    <td><span class="badge status-red"><span class="badge-dot"></span>Broken Sizes</span></td>
-                    <td>Size Fragmentation</td>
-                    <td><span class="logic-text">Avail < 50%</span></td>
-                    <td class="action-text">Restock missing sizes</td>
-                </tr>
-                <tr>
-                    <td><span class="badge status-red"><span class="badge-dot"></span>Restock ASAP</span></td>
-                    <td>Running Out</td>
-                    <td><span class="logic-text">Supply < 4 Weeks</span></td>
-                    <td class="action-text">Reorder immediately</td>
-                </tr>
-
-                <!-- Warning (Orange) -->
-                <tr>
-                    <td><span class="badge status-orange"><span class="badge-dot"></span>Low Conversion</span></td>
-                    <td>High Views, No Sales</td>
-                    <td><span class="logic-text">View > 1k & ATC < 1%</span></td>
-                    <td class="action-text">Review price & image</td>
-                </tr>
-                <tr>
-                    <td><span class="badge status-orange"><span class="badge-dot"></span>Overstock</span></td>
-                    <td>Moving Slowly</td>
-                    <td><span class="logic-text">Supply > 20 Weeks</span></td>
-                    <td class="action-text">Run promo to clear</td>
-                </tr>
-
-                <!-- Good (Green) -->
-                <tr>
-                    <td><span class="badge status-green"><span class="badge-dot"></span>Hidden Gem</span></td>
-                    <td>High Potential</td>
-                    <td><span class="logic-text">View < 200 & ATC > 4%</span></td>
-                    <td class="action-text">Increase marketing</td>
-                </tr>
-                <tr>
-                    <td><span class="badge status-green"><span class="badge-dot"></span>Healthy</span></td>
-                    <td>Performing Well</td>
-                    <td><span class="logic-text">No issues found</span></td>
-                    <td class="action-text">Maintain strategy</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 
 </body>
