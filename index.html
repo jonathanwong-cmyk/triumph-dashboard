@@ -3,111 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triumph E-commerce Analysis - MY 2.0</title>
+    <title>Triumph Global E-commerce Pulse</title>
     <style>
         :root {
             --bg-color: #000000;
             --card-bg: #0f172a;
             --text-color: #e2e8f0;
+            --subtext-color: #94a3b8;
             --accent-blue: #3b82f6;
             --red: #ef4444;
             --green: #22c55e;
             --orange: #f97316;
+            --border-color: #1e293b;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .container { max-width: 1200px; margin: auto; }
 
-        /* Tab System */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        /* Navigation Tabs */
+        .tabs { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 10px; 
+            overflow-x: auto;
+        }
+        
         .tab-btn {
-            background: none; border: none; color: #94a3b8; padding: 8px 16px;
-            cursor: pointer; font-weight: 600; transition: 0.3s;
+            background: none; 
+            border: none; 
+            color: var(--subtext-color); 
+            padding: 10px 12px;
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
-        .tab-btn.active { color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); }
+        
+        .tab-btn:hover { color: var(--text-color); }
+        .tab-btn.active { 
+            color: var(--accent-blue); 
+            border-bottom: 2px solid var(--accent-blue); 
+        }
 
-        /* Card Layout */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .card { background-color: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid #1e293b; }
+        /* Grid Layout */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+            gap: 20px; 
+        }
 
-        h4 { color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0; border-bottom: 1px solid #334155; padding-bottom: 8px; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 12px; font-size: 0.95rem; }
+        .card { 
+            background-color: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* Badges */
+        h4 { 
+            color: var(--text-color); 
+            text-transform: uppercase; 
+            font-size: 0.85rem;
+            letter-spacing: 0.05em; 
+            margin-top: 0; 
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Item Lists */
+        ul { list-style: none; padding: 0; margin: 0; }
+        
+        li { 
+            margin-bottom: 14px; 
+            font-size: 0.9rem; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #334155;
+            padding-bottom: 8px;
+        }
+        
+        li:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .item-info { display: flex; flex-direction: column; gap: 2px; }
+        .item-name { font-weight: 600; color: var(--text-color); }
+        .item-meta { font-size: 0.8rem; color: var(--subtext-color); }
+
+        /* Badges & Status */
         .badge {
-            padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;
-            margin-right: 5px; text-transform: uppercase;
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-size: 0.7rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
-        .bg-red { background-color: rgba(239, 68, 68, 0.2); color: var(--red); border: 1px solid var(--red); }
-        .bg-green { background-color: rgba(34, 197, 94, 0.2); color: var(--green); border: 1px solid var(--green); }
-        .bg-orange { background-color: rgba(249, 115, 22, 0.2); color: var(--orange); border: 1px solid var(--orange); }
+        
+        .bg-red { background-color: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .bg-green { background-color: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .bg-orange { background-color: rgba(249, 115, 22, 0.15); color: var(--orange); border: 1px solid rgba(249, 115, 22, 0.3); }
+        .bg-blue { background-color: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
 
-        .velocity { color: #94a3b8; font-size: 0.85rem; display: block; }
+        /* Utility */
+        .hidden { display: none; }
+        .stat-value { font-weight: 700; color: var(--text-color); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('MY')">MALAYSIA 2.0</button>
-        <button class="tab-btn" onclick="switchTab('SG')">SINGAPORE (Coming Soon)</button>
+        <button class="tab-btn active" onclick="switchTab('MY')">MALAYSIA</button>
+        <button class="tab-btn" onclick="switchTab('SG')">SINGAPORE</button>
+        <button class="tab-btn" onclick="switchTab('HK')">HONG KONG</button>
+        <button class="tab-btn" onclick="switchTab('AU')">AUSTRALIA</button>
     </div>
 
-    <div id="MY-content">
-        <section class="card" style="margin-bottom: 20px;">
-            <h4>The Snapshot</h4>
-            <p>
-                [cite_start]Weekly performance for Jan 26 - Feb 1, 2026, shows a <strong>revenue growth of 8.9% (18,983 CHF)</strong> despite a significant <strong>16.4% drop in traffic (42,254 views)</strong>[cite: 101, 103, 112]. [cite_start]This indicates a more qualified audience segment, evidenced by the <strong>View-To-Purchase rate rising to 3.20%</strong>[cite: 114]. [cite_start]The "Sloggi Comfort Care" and "Pure Breeze" lines are currently driving the bulk of volume, but significant inventory fragmentation (Broken Sizes) is limiting further upside[cite: 1, 7].
-            </p>
-        </section>
-
+    <div id="MY-content" class="country-section">
         <div class="grid">
             <div class="card">
-                <h4>Top 5 Action Items</h4>
+                <h4>🚀 Top Movers <span class="badge bg-green">High Velocity</span></h4>
                 <ul>
-                    <li><span class="badge bg-red">Restock ASAP</span> <strong>Style Dorothy Hipster</strong>: Highest sales volume (67 units) but currently showing "No Stock Info" in pivot logs. [cite_start]Potential revenue leak[cite: 1, 7].</li>
-                    [cite_start]<li><span class="badge bg-red">Broken Sizes</span> <strong>Sloggi Comfort Care Maxi</strong>: Sold 63 units across variants but size availability is failing at 46%[cite: 1, 7].</li>
-                    <li><span class="badge bg-orange">Overstock</span> <strong>Solfege Non-Wired Padded Bra</strong>: WOC is at 79.8 weeks with 13,931 units in stock. [cite_start]Immediate markdown or bundle promo required[cite: 7].</li>
-                    [cite_start]<li><span class="badge bg-red">Broken Sizes</span> <strong>Shape Smart Non-Wired Padded Bra</strong>: High ATC (6%) but size availability is critical at 2.5%[cite: 7].</li>
-                    <li><span class="badge bg-green">Scale</span> <strong>Sloggi Go Vivid Everyday Bra</strong>: Solid sales (23 units) and 15.30 CHF unit price. [cite_start]Move to "Performing Well" status[cite: 1, 7].</li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Sloggi Comfort Care Maxi</span>
+                            <span class="item-meta">Consistent performance</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">34 Units</span>
+                            <span class="badge bg-green">Top 1</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Solfege Non-Wired Padded</span>
+                            <span class="item-meta">High ASP (12.13 CHF)</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">29 Units</span>
+                            <span class="badge bg-blue">Stable</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Pure Breeze Maxi</span>
+                            <span class="item-meta">Budget Driver</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">24 Units</span>
+                            <span class="badge bg-blue">Stable</span>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
             <div class="card">
-                <h4>Conversion Gap (Missed Opportunities)</h4>
+                <h4>⚠️ Conversion Gaps <span class="badge bg-orange">High View / Low ATC</span></h4>
                 <ul>
-                    <li><strong>New Zero In Lace Padded Bra</strong>: <span class="badge bg-red">Low ATC</span> 260 views but only 1.15% ATC. [cite_start]Check image gallery or pricing[cite: 2, 9].</li>
-                    [cite_start]<li><strong>Smooth Sensation High Waist Panty</strong>: 201 views with a dismal 0.49% ATC rate[cite: 2].</li>
-                    <li><strong>Sloggi Zero Feel Bliss Hipster</strong>: 129 views, ATC < 1%. [cite_start]Likely a "Broken Size" issue preventing cart adds[cite: 2].</li>
-                    <li><strong>Curves Wired Push Up Deep V</strong>: 128 views, 0.78% ATC. [cite_start]High traffic but failing to convert[cite: 2].</li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Aqua Shan High Leg (Praline)</span>
+                            <span class="item-meta">259 Views vs 1.1% ATC</span>
+                        </div>
+                        <span class="badge bg-red">Check Stock</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">FeiFei Ruan Push Up (Feather)</span>
+                            <span class="item-meta">257 Views vs 0.7% ATC</span>
+                        </div>
+                        <span class="badge bg-orange">Price?</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Aqua Shan Hipster (Lilac)</span>
+                            <span class="item-meta">227 Views vs 0.8% ATC</span>
+                        </div>
+                        <span class="badge bg-orange">Check Size</span>
+                    </li>
                 </ul>
             </div>
 
             <div class="card">
-                <h4>Legacy Watch (High-Perf No Stock Info)</h4>
+                <h4>📦 Inventory Health <span class="badge bg-red">Action Required</span></h4>
                 <ul>
-                    <li><strong>Pure Breeze Maxi</strong>: 11 units sold at 3.77 CHF. [cite_start]System lacks stock data, but velocity remains consistent[cite: 1].</li>
-                    <li><strong>Sloggi Everyday Maxi (5 Pack)</strong>: 8 units sold at 15.39 CHF. [cite_start]Strong pack-size performance despite "Broken Sizes" tag[cite: 1, 18].</li>
-                    <li><strong>Wide Trim Midi (5 Pack)</strong>: 12 units sold; system shows 0% availability. [cite_start]Inventory sync error likely[cite: 1, 18].</li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Simply Fashion Blossom</span>
+                            <span class="item-meta">Pulse: Margin Bleed</span>
+                        </div>
+                        <span class="badge bg-red">No Stock Info</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Everyday Soft Touch Padded</span>
+                            <span class="item-meta">Pulse: Margin Bleed</span>
+                        </div>
+                        <span class="badge bg-red">Restock ASAP</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Style Double Push Midi</span>
+                            <span class="item-meta">Low Conversion</span>
+                        </div>
+                        <span class="badge bg-orange">Check Pivot</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="SG-content" class="country-section hidden">
+        <div class="grid">
+            <div class="card">
+                <h4>🚀 Top Movers <span class="badge bg-green">High Velocity</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Invisible Inside-Out Push Up</span>
+                            <span class="item-meta">Deep V Bra</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">20 Units</span>
+                            <span class="badge bg-green">Top 1</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Simply Everyday Wired</span>
+                            <span class="item-meta">Push Up Detachable</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">14 Units</span>
+                            <span class="badge bg-blue">Trending</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Pure Breeze Mini</span>
+                            <span class="item-meta">Basic Essential</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">14 Units</span>
+                            <span class="badge bg-blue">Stable</span>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
             <div class="card">
-                <h4>Inventory Health</h4>
+                <h4>⚠️ Conversion Gaps <span class="badge bg-orange">Missed Ops</span></h4>
                 <ul>
-                    <li><span class="badge bg-orange">Overstock Risk</span> <strong>Smooth Infinity Non-Wired</strong>: 2,089 units available; [cite_start]WOC 348 weeks[cite: 7].</li>
-                    <li><span class="badge bg-orange">Overstock Risk</span> <strong>Bloom Delight Non-Wired</strong>: 1,237 units; [cite_start]WOC 309 weeks[cite: 9].</li>
-                    <li><span class="badge bg-green">Hidden Gem</span> <strong>Aqua Moon Flower Hipster</strong>: 20% ATC with only 34 views. [cite_start]Needs marketing push[cite: 26].</li>
-                    [cite_start]<li><span class="badge bg-red">Critical Size Gap</span> <strong>Natural Elegance Wired Padded</strong>: 2.02% size availability[cite: 7].</li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Shape Up Non-Wired (Vervain)</span>
+                            <span class="item-meta">314 Views vs 0.6% ATC</span>
+                        </div>
+                        <span class="badge bg-red">Critial Fix</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Smooth Infinity (Black)</span>
+                            <span class="item-meta">214 Views vs 7.0% ATC</span>
+                        </div>
+                        <span class="badge bg-green">Healthy</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Simply Everyday Push Up</span>
+                            <span class="item-meta">183 Views vs 1.6% ATC</span>
+                        </div>
+                        <span class="badge bg-orange">Low Conv</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>📦 Inventory Health <span class="badge bg-red">Risks</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Smooth Infinity Non-Wired</span>
+                            <span class="item-meta">1,040 Units in Stock</span>
+                        </div>
+                        <span class="badge bg-orange">Overstock</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Aqua Organic Push Up</span>
+                            <span class="item-meta">Pulse: No Stock Info</span>
+                        </div>
+                        <span class="badge bg-red">Data Gap</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Invisible Inside-Out (Black)</span>
+                            <span class="item-meta">Broken Size / Overstock</span>
+                        </div>
+                        <span class="badge bg-orange">Markdown</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="HK-content" class="country-section hidden">
+        <div class="grid">
+            <div class="card">
+                <h4>🚀 Top Movers <span class="badge bg-green">High Velocity</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Pure Invisible Wired Padded</span>
+                            <span class="item-meta">Top Seller (HKD)</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">36 Units</span>
+                            <span class="badge bg-green">Top 1</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Sloggi Comfort Care (2pk)</span>
+                            <span class="item-meta">High Volume Briefs</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">34 Units</span>
+                            <span class="badge bg-blue">Strong</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Maximizer Push Up</span>
+                            <span class="item-meta">Key Revenue Driver</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">28 Units</span>
+                            <span class="badge bg-blue">Stable</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>⚠️ Conversion Gaps <span class="badge bg-orange">Missed Ops</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Magic Wire Lite (Black)</span>
+                            <span class="item-meta">207 Views vs 3.3% ATC</span>
+                        </div>
+                        <span class="badge bg-red">Low ATC</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Pure Invisible (Sophia)</span>
+                            <span class="item-meta">193 Views vs 9.3% ATC</span>
+                        </div>
+                        <span class="badge bg-green">Good ATC</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Magic Wire Lite (Beige)</span>
+                            <span class="item-meta">182 Views vs 6.8% ATC</span>
+                        </div>
+                        <span class="badge bg-orange">Fair</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>📦 Inventory Health <span class="badge bg-red">Risks</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Pure Invisible (Sophia)</span>
+                            <span class="item-meta">1,204 Units / WOC 229</span>
+                        </div>
+                        <span class="badge bg-orange">Overstock</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Magic Wire Lite (Black)</span>
+                            <span class="item-meta">Pulse: Margin Bleed</span>
+                        </div>
+                        <span class="badge bg-red">Restock/Fix</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Style Shell Non-Wired</span>
+                            <span class="item-meta">Pulse: Restock ASAP</span>
+                        </div>
+                        <span class="badge bg-red">Low Stock</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="AU-content" class="country-section hidden">
+        <div class="grid">
+            <div class="card">
+                <h4>🚀 Top Movers <span class="badge bg-green">High Velocity</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">LACY MINIMISER BRA</span>
+                            <span class="item-meta">Massive Volume</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">476 Units</span>
+                            <span class="badge bg-green">Dominant</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">TRIACTION ULTRA SPORTS</span>
+                            <span class="item-meta">Strong Performer</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">192 Units</span>
+                            <span class="badge bg-blue">Top 2</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">EMBROIDERED MINIMISER</span>
+                            <span class="item-meta">Classic Staple</span>
+                        </div>
+                        <div class="item-info" style="align-items: flex-end;">
+                            <span class="stat-value">170 Units</span>
+                            <span class="badge bg-blue">Top 3</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>⚠️ Conversion Gaps <span class="badge bg-orange">Missed Ops</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">True Shape Sensation (Water)</span>
+                            <span class="item-meta">447 Views vs 1.5% ATC</span>
+                        </div>
+                        <span class="badge bg-red">Low Conv</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">True Shape Sensation (Grey)</span>
+                            <span class="item-meta">411 Views vs 2.6% ATC</span>
+                        </div>
+                        <span class="badge bg-orange">Monitor</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Lacy Minimiser (Amethyst)</span>
+                            <span class="item-meta">348 Views vs 1.1% ATC</span>
+                        </div>
+                        <span class="badge bg-red">Check Size</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>📦 Inventory Health <span class="badge bg-red">Risks</span></h4>
+                <ul>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Endless Comfort Wirefree</span>
+                            <span class="item-meta">595 Views, No Stock Data</span>
+                        </div>
+                        <span class="badge bg-red">Data Gap</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Lacy Minimiser (Opale)</span>
+                            <span class="item-meta">542 Views, No Stock Data</span>
+                        </div>
+                        <span class="badge bg-red">Restock</span>
+                    </li>
+                    <li>
+                        <div class="item-info">
+                            <span class="item-name">Lacy Minimiser (Black)</span>
+                            <span class="item-meta">High Volume / Overstock Flag</span>
+                        </div>
+                        <span class="badge bg-orange">Monitor</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -116,16 +514,19 @@
 
 <script>
     function switchTab(country) {
+        // Remove active class from all buttons
         const buttons = document.querySelectorAll('.tab-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
         event.currentTarget.classList.add('active');
         
-        if (country === 'SG') {
-            document.getElementById('MY-content').style.opacity = '0.3';
-            alert('Singapore data is not yet uploaded.');
-        } else {
-            document.getElementById('MY-content').style.opacity = '1';
-        }
+        // Hide all content sections
+        const sections = document.querySelectorAll('.country-section');
+        sections.forEach(sec => sec.classList.add('hidden'));
+        
+        // Show selected content section
+        document.getElementById(country + '-content').classList.remove('hidden');
     }
 </script>
 
